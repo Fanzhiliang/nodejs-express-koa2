@@ -66,11 +66,102 @@ supervisor app.js
 ## 2.3 fs 模块
 
 1. stat: 检查是文件还是目录
-1. mkdir: 创建目录
-1. writeFile: 创建写入文件、覆盖修改文件
-1. appendFile: 插入内容
-1. readFile: 读取内容
-1. rename: 重命名文件、移动文件
-1. unlink: 删除文件
-1. rmdir: 删除目录
-1. readdir: 读取目录下全部文件
+2. mkdir: 创建目录
+3. writeFile: 创建写入文件、覆盖修改文件
+4. appendFile: 插入内容
+5. readFile: 读取内容
+6. rename: 重命名文件、移动文件
+7. unlink: 删除文件
+8. rmdir: 删除目录
+9. readdir: 读取目录下全部文件
+9. createReadStream: 以流的方式来读取数据
+9. createWriteStream: 以流的方式来写入数据
+10. readStream.pipe: 以管道流的方式来复制文件
+
+## 2.3 创建一个静态服务器
+
+```js
+// server.js
+const http = require('http')
+const routes = require('./routes')
+
+const port = 3031
+const publishPath = './publish'
+
+http.createServer(async function (request, response) {
+  routes.static(request, response, publishPath)
+}).listen(port)
+
+console.log(`Server running at http://127.0.0.1:${port}/`)
+```
+
+```js
+// routes.js
+const url = require('url')
+const fs = require('fs')
+const path = require('path')
+const { getMime } = require('./utils')
+
+const charset = 'UTF-8'
+
+/**
+ * 静态服务器
+ * @param {object} request
+ * @param {object} response
+ * @param {string} publishPath
+ * @return {undefined}
+ */
+exports.static = async (request, response, publishPath) => {
+  // 地址
+  let pathname = request.url === '/' ? '/index.html' : request.url
+  pathname = url.parse(pathname).pathname
+  // 拓展名
+  const extname = path.extname(pathname)
+  // mime
+  const mime = await getMime(extname)
+
+  fs.readFile(publishPath + pathname, (err, data) => {
+    if (err) {
+      response.writeHead(404, { 'Content-Type': `text/html;charset="${charset}"` })
+      response.end('找不到该页面')
+    } else {
+      response.writeHead(200, { 'Content-Type': `${mime};charset="${charset}"` })
+      response.end(data)
+    }
+  })
+}
+```
+
+```js
+// utils/index.js
+// 保存 mime-type json 对象
+let mimeJson = null
+/**
+ * 获取 mime-type json 对象
+*/
+const getMimeJson = () => new Promise((resolve, reject) => {
+  if (mimeJson) {
+    resolve(mimeJson)
+  } else {
+    fs.readFile(path.resolve(__dirname, 'mime.json'), (err, data) => {
+      if (err) {
+        console.log(err)
+        reject(err)
+      } else {
+        mimeJson = JSON.parse(data.toString())
+        resolve(mimeJson)
+      }
+    })
+  }
+})
+
+/**
+ * 根据拓展名获取 mime
+ * @param {string} extname
+ * @returns {string | null}
+ */
+exports.getMime = async function getMime (extname) {
+  const mimeJson = await getMimeJson()
+  return mimeJson[extname] ? mimeJson[extname] : 'text/html'
+}
+```

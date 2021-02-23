@@ -1,9 +1,13 @@
+const fs = require('fs')
+const path = require('path')
+
 /**
- * @param {(Object|string|number)} time
+ * 解析时间戳
+ * @param {(object|string|number)} time
  * @param {string} cFormat
  * @returns {string | null}
  */
-function parseTime (time, cFormat) {
+exports.parseTime = function parseTime (time, cFormat) {
   if (arguments.length === 0) {
     return null
   }
@@ -41,8 +45,33 @@ function parseTime (time, cFormat) {
   return timeStr
 }
 
-exports.parseTime = parseTime
+// 保存 mime-type json 对象
+let mimeJson = null
+/**
+ * 获取 mime-type json 对象
+*/
+const getMimeJson = () => new Promise((resolve, reject) => {
+  if (mimeJson) {
+    resolve(mimeJson)
+  } else {
+    fs.readFile(path.resolve(__dirname, 'mime.json'), (err, data) => {
+      if (err) {
+        console.log(err)
+        reject(err)
+      } else {
+        mimeJson = JSON.parse(data.toString())
+        resolve(mimeJson)
+      }
+    })
+  }
+})
 
-// module.exports = {
-//   parseTime: parseTime
-// }
+/**
+ * 根据拓展名获取 mime
+ * @param {string} extname
+ * @returns {string | null}
+ */
+exports.getMime = async function getMime (extname) {
+  const mimeJson = await getMimeJson()
+  return mimeJson[extname] ? mimeJson[extname] : 'text/html'
+}

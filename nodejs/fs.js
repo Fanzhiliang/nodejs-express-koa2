@@ -191,16 +191,83 @@ const rmdir = (path = '') => new Promise((resolve, reject) => {
 
 // stat()
 
-mkdir().then((res) => {
-  if (res) {
-    return writeFile()
-  } else {
-    return appendFile()
-  }
-})
+// mkdir().then((res) => {
+//   if (res) {
+//     return writeFile()
+//   } else {
+//     return appendFile()
+//   }
+// })
 
 // rename()
 
 // unlink()
 
-rmdir('./publish/static')
+// rmdir('./publish/static')
+
+// 以流的方式来读取数据
+const handleReadStream = () => {
+  const readStream = fs.createReadStream('./publish/input-big-data.txt', {
+    encoding: 'utf-8'
+  })
+
+  let count = 0
+  let readData = ''
+
+  readStream.on('data', (data) => {
+    readData += data
+    count++
+  })
+
+  readStream.on('end', () => {
+    console.log(readData)
+    console.log(`读取了${count}次`)
+  })
+
+  readStream.on('error', (err) => {
+    console.log(err)
+  })
+}
+
+// handleReadStream()
+
+// 以流的方式来写入数据
+const handleWriteStream = () => {
+  let data = ''
+  for (let i = 0; i < 500; i++) {
+    data += `${i + 1}我是写入的大量数据~\n`
+  }
+
+  const writeStream = fs.createWriteStream('./publish/output-big-data.txt', {
+    encoding: 'utf-8'
+  })
+
+  writeStream.write(data, (err) => {
+    if (err) {
+      console.log(err)
+      return
+    }
+    writeStream.end()
+  })
+
+  writeStream.on('finish', () => {
+    console.log('写入完成')
+  })
+}
+
+// handleWriteStream()
+
+// 以管道流的方式来复制文件
+const pipe = () => {
+  const readStream = fs.createReadStream('./publish/img.jpg')
+
+  const writeStream = fs.createWriteStream('./publish//data/img.jpg')
+
+  readStream.pipe(writeStream)
+
+  readStream.on('end', () => {
+    console.log('复制完成')
+  })
+}
+
+// pipe()
