@@ -23,6 +23,8 @@ module.exports = {
       }
     ],
     // 未被使用
-    'no-unused-vars': [1]
+    'no-unused-vars': [1],
+    // 不能单独使用 new
+    'no-new': 0
   }
 }
