@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ejs 测试</title>
+
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+  <!-- 普通属性 -->
+  <h2><%= title %></h2>
+
+  <!-- 对象 -->
+  <h3>用户名：<%= userInfo.name %></h3>
+  <h3>年龄：<%= userInfo.age %></h3>
+
+  <!-- 标签 -->
+  <%- tag %>
+
+  <!-- 条件判断 -->
+  <% if (userInfo.age >= 100) { %>
+    <h3>是一个百岁老人</h3>
+  <% } else if(userInfo.age >= 18) { %>
+    <h3>是一个成年人</h3>
+  <% } else { %>
+    <h3>是一个小孩子</h3>
+  <% } %>
+
+  <!-- 循环遍历 -->
+  <h3>兴趣：</h3>
+  <% for (var i = 0; i < hobby.length; i++){ %>
+    <span><%= hobby[i] %></span>
+  <% } %>
+
+  <!-- 引入模板 -->
+  <%- include('components/footer.html') %>
+</body>
+</html>
