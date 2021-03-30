@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试上传</title>
+</head>
+<body>
+  <form id="upload-form" action="/upload/noParamArray" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <br>
+    <br>
+    <input type="file" name="list" multiple="multiple">
+    <br>
+    <br>
+    <textarea name="desc" id="desc" cols="30" rows="3" placeholder="描述"></textarea>
+    <br>
+    <br>
+    <button id="submit" type="submit">上传</button>
+  </form>
+
+</body>
+</html>

@@ -18,6 +18,7 @@ const { SESSION_SECRET, SESSION_NAME, MONGO_URL, MONGO_DB } = require(path.resol
 
 // 静态目录
 router.use('/', express.static('public'))
+router.use('/resources', express.static('resources'))
 
 // 解析 body
 router.use(bodyParser.json())
