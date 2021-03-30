@@ -340,6 +340,8 @@ db.user.createIndex({ "username": 1 }, { "unique": true })
 2.8 数据库管理员
 
 ```
+// 记得切换数据库再添加用户
+use admin
 // 添加用户
 db.createUser({
   user: "admin",
