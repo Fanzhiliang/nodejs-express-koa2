@@ -1,7 +1,6 @@
 import path from 'path'
 import express from 'express'
 const router = express.Router()
-
 import tokenFilters from '../filters/token'
 
 const { TOKEN_KEY, SESSION_NAME } = require(path.resolve(__dirname, '../config'))

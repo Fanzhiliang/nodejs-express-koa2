@@ -1,7 +1,6 @@
-const path = require('path')
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const tokenFilters = require(path.resolve(__dirname, '../../filters/token'))
+import tokenFilters from '../../filters/token'
 
 router.use(tokenFilters)
 
@@ -14,4 +13,4 @@ router.get('/:id', (req, res, next) => {
   }
 })
 
-module.exports = router
+export default router

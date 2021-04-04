@@ -7,7 +7,7 @@ type Router = typeof router
 const autoRequireRoutes = (router: Router, currentPath = '', routePath = '') => {
   if (!router || !currentPath) return
 
-  fs.readdirSync(currentPath).forEach(directoryName => {
+  fs.readdirSync(currentPath).forEach(async directoryName => {
     // 文件路径
     const directoryPath = currentPath + '/' + directoryName
     const dotIndex = directoryName.indexOf('.')
@@ -15,10 +15,10 @@ const autoRequireRoutes = (router: Router, currentPath = '', routePath = '') => 
 
     try {
       // 尝试导入
-      const directoryRoute = require(directoryPath)
+      const directoryRoute = (await import(directoryPath)).default
 
-      // 不用导入 index.js，在上层文件夹时已经导入了
-      if (directoryName !== 'index.js') {
+      // 不用导入 index.ts，在上层文件夹时已经导入了
+      if (directoryName !== 'index.ts') {
         router.use(_routePath, directoryRoute)
       }
     } catch (error) {

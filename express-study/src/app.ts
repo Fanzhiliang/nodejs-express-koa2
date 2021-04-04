@@ -10,8 +10,10 @@ const app = express()
 // 全局
 import global from './filters/global'
 app.use(global)
+
 // 接口路由
-// app.use(require('./routes'))
+import routes from './routes'
+app.use(routes)
 
 // 默认模板文件夹 views
 app.set('views', path.resolve(__dirname, 'views'))
