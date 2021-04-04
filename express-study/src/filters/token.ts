@@ -1,5 +1,5 @@
-const path = require('path')
-const express = require('express')
+import path from 'path'
+import express from 'express'
 const router = express.Router()
 
 const { TOKEN_KEY, SESSION_NAME } = require(path.resolve(__dirname, '../config'))
@@ -11,4 +11,4 @@ router.use((req, res, next) => {
   next()
 })
 
-module.exports = router
+export default router

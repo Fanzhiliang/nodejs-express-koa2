@@ -1,13 +1,8 @@
-/**
- * Parse the time to string
- * @param {(Object|string|number)} time
- * @param {string} cFormat
- * @returns {string | null}
- */
-module.exports.parseTime = function (time, cFormat) {
-  if (arguments.length === 0 || !time) {
-    return null
-  }
+
+// 格式化时间戳
+export const parseTime = (time: number | string| Date, cFormat = '{y}-{m}-{d} {h}:{i}:{s}'): string => {
+  if (!time) return ''
+
   const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
   let date
   if (typeof time === 'object') {
@@ -15,11 +10,8 @@ module.exports.parseTime = function (time, cFormat) {
   } else {
     if ((typeof time === 'string')) {
       if ((/^[0-9]+$/.test(time))) {
-        // support "1548221490638"
         time = parseInt(time)
       } else {
-        // support safari
-        // https://stackoverflow.com/questions/4310953/invalid-date-in-safari
         time = time.replace(/-/gm, '/')
       }
     }
@@ -29,14 +21,14 @@ module.exports.parseTime = function (time, cFormat) {
     }
     date = new Date(time)
   }
-  const formatObj = {
+  const formatObj: any = {
     y: date.getFullYear(),
     m: date.getMonth() + 1,
     d: date.getDate(),
     h: date.getHours(),
     i: date.getMinutes(),
     s: date.getSeconds(),
-    a: date.getDay()
+    a: date.getDay(),
   }
   const timeStr = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]

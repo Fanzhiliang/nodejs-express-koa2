@@ -1,8 +1,10 @@
-const fs = require('fs')
-const express = require('express')
+import fs from 'fs'
+import express from 'express'
 const router = express.Router()
 
-const autoRequireRoutes = (router, currentPath = '', routePath = '') => {
+type Router = typeof router
+
+const autoRequireRoutes = (router: Router, currentPath = '', routePath = '') => {
   if (!router || !currentPath) return
 
   fs.readdirSync(currentPath).forEach(directoryName => {
@@ -33,4 +35,4 @@ const autoRequireRoutes = (router, currentPath = '', routePath = '') => {
 
 autoRequireRoutes(router, __dirname)
 
-module.exports = router
+export default router

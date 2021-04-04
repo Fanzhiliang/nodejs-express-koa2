@@ -1,4 +1,4 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
 
 // ejs 模板路由
@@ -11,11 +11,11 @@ router.get('/', (req, res) => {
     title: '这个是 ejs 模板文件',
     userInfo: {
       name: 'fzl',
-      age: 24
+      age: 24,
     },
     tag: '<p>我是一个p标签</p>',
-    hobby: ['吃饭', '睡觉', '打豆豆']
+    hobby: ['吃饭', '睡觉', '打豆豆'],
   })
 })
 
-module.exports = router
+export default router

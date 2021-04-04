@@ -1,24 +1,25 @@
-const path = require('path')
-const express = require('express')
+import path from 'path'
+import express from 'express'
 const router = express.Router()
 // 解析 body
-const bodyParser = require('body-parser')
+import bodyParser from 'body-parser'
 // cookie
-const cookieParser = require('cookie-parser')
+import cookieParser from 'cookie-parser'
 // session
-const session = require('express-session')
+import session from 'express-session'
 // session 保存到 mongodb
-const MongoStore = require('connect-mongo')
+import MongoStore from 'connect-mongo'
 // // session 保存到 redis
-// const MongoStore = require('connect-redis')
+// import MongoStore from 'connect-redis'
 // // session 保存到 mysql
-// const MongoStore = require('connect-mysql')
+// import MongoStore from 'connect-mysql'
 
 const { SESSION_SECRET, SESSION_NAME, MONGO_URL, MONGO_DB } = require(path.resolve(__dirname, '../config'))
 
 // 静态目录
-router.use('/', express.static('public'))
-router.use('/resources', express.static('resources'))
+
+router.use('/', express.static(path.resolve(__dirname, '../public')))
+router.use('/resources', express.static(path.resolve(__dirname, '../resources')))
 
 // 解析 body
 router.use(bodyParser.json())
@@ -43,7 +44,7 @@ router.use(session({
     maxAge: 1000 * 60 * 60 * 24,
     // maxAge: 1000 * 8,
     // 只有 https 可以访问 cookie
-    secure: false
+    secure: false,
   },
   // 每次请求重新设置对应的 cookie 的过期时间
   rolling: true,
@@ -53,8 +54,8 @@ router.use(session({
     // 数据库名
     dbName: MONGO_DB,
     // 无论有多少请求，一定时间内 session 只更新一次，除非 session 改变
-    touchAfter: 1000 * 60 * 60 * 24
-  })
+    touchAfter: 1000 * 60 * 60 * 24,
+  }),
 }))
 
-module.exports = router
+export default router
