@@ -189,5 +189,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': ['off'],
     '@typescript-eslint/no-empty-function': ['off'],
     '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/explicit-module-boundary-types': ['off'],
   },
 }

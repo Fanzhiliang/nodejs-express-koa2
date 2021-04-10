@@ -387,6 +387,14 @@ module.exports = router
 
 ### 4 mongoose
 
+请看项目，太多东西了，忘记写了
+
+### 5 typescript
+
+请看 ts-study 项目
+
+
+
 
 
 

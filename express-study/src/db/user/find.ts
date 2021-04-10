@@ -1,15 +1,15 @@
 import { QueryOptions } from 'mongoose'
 import { User, UserModel } from './index'
-import { ListParams, ListResult, getQueryOptions } from '../model/list-params'
+import { ListParams, ListResult, createQueryOptions } from '../model/list'
 
+// 查找
 export const find = (
   user: UserModel,
   projection?: any | null,
   options?: QueryOptions | null,
-): Promise<UserModel[]> => (
-  User.find(user, projection, options) as any
-)
+) => User.find(user, projection, options)
 
+// 列表
 export const list = async(
   user: UserModel,
   params: ListParams,
@@ -17,17 +17,16 @@ export const list = async(
   return Promise.all([
     User.find(
       {
-        $or: [
-          // $regex 模糊查询
-          { username: { $regex: user.username || '' }},
-          { phone: { $regex: user.phone || '' }},
-        ],
+        // $regex 模糊查询
+        username: { $regex: user.username || '' },
+        phone: { $regex: user.phone || '' },
       },
-      // 不显示 _id
+      // 不显示 _id 和 密码
       {
         _id: 0,
+        password: 0,
       },
-      getQueryOptions(params),
+      createQueryOptions(params, User.schema),
     ),
     User.count(),
   ]).then(([list, total]) => {
@@ -36,4 +35,16 @@ export const list = async(
     })
   })
 }
+
+// 登录
+export const getUserByUsernameAndPassword = (user: UserModel) => User.findOne(
+  {
+    username: user.username,
+    phone: user.password,
+  },
+  // 不显示 _id
+  {
+    _id: 0,
+  },
+)
 

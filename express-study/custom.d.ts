@@ -31,3 +31,14 @@ import 'ejs'
 declare module 'ejs' {
   export const __express: any
 }
+
+/**
+ * mongoose Schema.tree
+*/
+import 'mongoose'
+
+declare module 'mongoose' {
+  interface Schema {
+    tree: { [key:string]: any }
+  }
+}

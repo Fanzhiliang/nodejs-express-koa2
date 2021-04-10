@@ -4,6 +4,7 @@ import { Document } from 'mongoose'
 export interface UserModel {
   _id?: any,
   username?: string
+  password?: string
   phone?: string
   hobby?: string[],
   status?: number
@@ -20,9 +21,18 @@ const UserSchema = new mongoose.Schema<UserDocument>({
     // 普通索引
     // index: true,
     // 去除左右空格
-    // trim: true,
+    trim: true,
   },
-  phone: String,
+  // 密码
+  password: {
+    type: String,
+    trim: true,
+  },
+  phone: {
+    type: String,
+    unique: true,
+    trim: true,
+  },
   hobby: Array,
   status: {
     type: Number,

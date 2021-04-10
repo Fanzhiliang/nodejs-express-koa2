@@ -4,7 +4,7 @@ process.env.NODE_ENV = process.env.NODE_ENV?.toString().trim()
 export const PORT = process.env.NODE_ENV === 'development' ? 3000 : 3001
 
 // token 名称
-export const TOKEN_KEY = 'express_test_token_key'
+export const TOKEN_KEY = 'authorization'
 
 // session 签名
 export const SESSION_SECRET = 'fanzhiliang'
@@ -27,7 +27,11 @@ export const MONGO_URL = `mongodb://${USERNAME}:${PASSWORD}@${HOST}:27017/`
 // 连接的数据库
 export const MONGO_DB = 'test'
 
-export const BASE_PATH = __dirname
+// jwt token 密钥
+export const TOKEN_SECRET = 'fanzhiliang777'
+
+// jwt token 过期时间（毫秒）
+export const TOKEN_EXP = 1000 * 60 * 60 * 24
 
 // 自己导入自己
 import * as Config from './config'

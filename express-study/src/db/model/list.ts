@@ -1,4 +1,4 @@
-import { QueryOptions } from 'mongoose'
+import { QueryOptions, Schema } from 'mongoose'
 
 // 分页参数
 export interface ListParams {
@@ -37,11 +37,14 @@ export interface ListResult<T> {
 }
 
 // 获取查询参数
-export const getQueryOptions = (_params: ListParams): QueryOptions => {
+export const createQueryOptions = (_params: ListParams, schema: Schema): QueryOptions => {
+  // 获取 schema 下的字段名
+  const keys = Object.keys(schema.tree)
   const params = Object.assign({}, DefaultParams, _params)
   const current = params.current || DefaultParams.current as number
   const size = params.size || DefaultParams.size as number
-  const sort = params.sort || DefaultParams.sort as string
+  // 判断是否有该字段
+  const sort = params.sort && keys.includes(params.sort) ? params.sort : DefaultParams.sort as string
   const order = params.order || DefaultParams.order as string
   return {
     skip: size * (current - 1),

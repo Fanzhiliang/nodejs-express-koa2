@@ -1,4 +1,4 @@
-interface Result {
+export interface Result {
   /**
    * 错误代码
    * 0：无错误
@@ -11,9 +11,15 @@ interface Result {
   */
   data: any
   /**
-   * 错误信息
+   * 响应信息
   */
   msg: string
 }
 
 export default Result
+
+export const createResult = (): Result => ({
+  code: 0,
+  data: {},
+  msg: '',
+})
