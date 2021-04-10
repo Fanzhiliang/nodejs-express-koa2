@@ -315,7 +315,7 @@ db.user.find().sort({ "age": -1 })
 ```
 // 插入大量数据
 for (var i = 0; i < 600000; i++) {
-  db.user.insert({ "username": "用户" + (i + 1), "phone":  13128000000 + i + 1, "status": 1 })
+  db.user.insert({ "username": "用户" + (i + 1), "phone":  (13128000000 + i + 1) + "", "status": 1, "hobby": [] })
 }
 
 // explain 获取语句执行时间

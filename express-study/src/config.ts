@@ -1,5 +1,7 @@
+process.env.NODE_ENV = process.env.NODE_ENV?.toString().trim()
+
 // 运行端口
-export const PORT = 3000
+export const PORT = process.env.NODE_ENV === 'development' ? 3000 : 3001
 
 // token 名称
 export const TOKEN_KEY = 'express_test_token_key'
@@ -24,6 +26,8 @@ export const MONGO_URL = `mongodb://${USERNAME}:${PASSWORD}@${HOST}:27017/`
 
 // 连接的数据库
 export const MONGO_DB = 'test'
+
+export const BASE_PATH = __dirname
 
 // 自己导入自己
 import * as Config from './config'

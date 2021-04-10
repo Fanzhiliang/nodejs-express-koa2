@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
-const { MONGO_URL, MONGO_DB } = require('../config')
+import mongoose from 'mongoose'
+import { MONGO_URL, MONGO_DB } from '../config'
 
 mongoose.connect(MONGO_URL, {
   dbName: MONGO_DB,
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 })
 
 mongoose.connection.on('connected', () => {
@@ -20,4 +20,4 @@ mongoose.connection.on('error', error => {
   console.log(error)
 })
 
-module.exports = mongoose
+export default mongoose

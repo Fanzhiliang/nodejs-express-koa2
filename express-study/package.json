@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tsc": "tsc",
-    "files": "copyfiles -u 1 ./src/views/**/*.html ./src/public/**/* ./build/ && mkdirp ./build/resources",
     "dev": "set NODE_ENV=development && ts-node-dev --respawn --transpile-only ./src/app.ts",
-    "prod": "npm run files && set NODE_ENV=production && tsc && supervisor ./build/app.js"
+    "files": "copyfiles -u 1 ./src/views/**/*.html ./src/public/**/* ./build/ && mkdirp ./build/resources",
+    "build": "npm run files && set NODE_ENV=production && tsc",
+    "prod": "npm run build && supervisor ./build/app.js"
   },
   "keywords": [],
   "author": "",
