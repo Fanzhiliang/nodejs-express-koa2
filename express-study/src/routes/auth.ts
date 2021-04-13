@@ -4,7 +4,7 @@ const router = express.Router()
 import { createResult } from '../db/model/result'
 const { SESSION_NAME } = global.Config
 import { createToken, removeToken } from '../utils/token'
-import { getUserByUsernameAndPassword } from '../db/user/find'
+import User from '../db/user'
 
 /**
  * @api {get} /auth/login 登录
@@ -28,7 +28,7 @@ router.get('/login', (req, res) => {
   const password = query.password as string
 
   if (username && password) {
-    getUserByUsernameAndPassword({
+    User.getUserByUsernameAndPassword({
       username,
       password,
     }).then((data) => {

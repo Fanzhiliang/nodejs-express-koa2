@@ -3,7 +3,8 @@ const router = express.Router()
 import { parseToken } from '../utils/token'
 import { createResult } from '../db/model/result'
 const result = createResult()
-import { getUserByUsernameAndPassword } from '../db/user/find'
+// import { getUserByUsernameAndPassword } from '../db/user/find'
+import User from '../db/user'
 const { TOKEN_KEY } = global.Config
 
 router.use((req, res, next) => {
@@ -18,7 +19,7 @@ router.use((req, res, next) => {
       const now = Date.now()
       const exp = tokenData.exp || 0
       if (now < exp) {
-        return getUserByUsernameAndPassword({
+        return User.getUserByUsernameAndPassword({
           username: tokenData.username as string,
           password: tokenData.password as string,
         }).then((user) => {

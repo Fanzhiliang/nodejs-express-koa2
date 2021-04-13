@@ -1,5 +1,9 @@
 import mongoose from '../db'
-import { Document } from 'mongoose'
+import { Document, Model } from 'mongoose'
+import * as insertApi from './insert'
+import * as deleteApi from './delete'
+import * as updateApi from './update'
+import * as findApi from './find'
 
 export interface UserModel {
   _id?: string
@@ -41,7 +45,23 @@ const UserSchema = new mongoose.Schema<UserDocument>({
   },
 })
 
+type InsertApi = typeof insertApi
+type DeleteApi = typeof deleteApi
+type UpdateApi = typeof updateApi
+type FindApi = typeof findApi
+
+interface SchemaApis extends InsertApi, DeleteApi, UpdateApi, FindApi {}
+
+UserSchema.statics = {
+  ...<any>insertApi,
+  ...<any>deleteApi,
+  ...<any>updateApi,
+  ...<any>findApi,
+}
+
+interface SchemaStatics extends Model<UserDocument>, SchemaApis{}
+
 mongoose.set('useCreateIndex', true)
-export const User = mongoose.model<UserDocument>('User', UserSchema, 'user')
+export const User = mongoose.model<UserDocument>('User', UserSchema, 'user') as SchemaStatics
 
 export default User

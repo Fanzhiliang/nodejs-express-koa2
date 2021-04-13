@@ -1,21 +1,14 @@
-import { QueryOptions } from 'mongoose'
 import { User, UserModel } from './index'
 import { ListParams, ListResult, createQueryOptions } from '../model/list'
 
-// 查找
-export const find = (
-  user: UserModel,
-  projection?: any | null,
-  options?: QueryOptions | null,
-) => User.find(user, projection, options)
-
 // 列表
-export const list = async(
+export const getUserList = async function(
+  this: typeof User,
   user: UserModel,
   params: ListParams,
-): Promise<ListResult<UserModel>> => {
+): Promise<ListResult<UserModel>> {
   return Promise.all([
-    User.find(
+    this.find(
       {
         // $regex 模糊查询
         username: { $regex: user.username || '' },
@@ -28,7 +21,7 @@ export const list = async(
       },
       createQueryOptions(params, User.schema),
     ),
-    User.count(),
+    this.count(),
   ]).then(([list, total]) => {
     return Promise.resolve({
       list, total,
@@ -37,10 +30,12 @@ export const list = async(
 }
 
 // 根据用户名和密码查询用户信息
-export const getUserByUsernameAndPassword = (user: UserModel) => User.findOne(
-  {
-    username: user.username,
-    phone: user.password,
-  },
-).lean()
+export const getUserByUsernameAndPassword = function(this: typeof User, user: UserModel) {
+  return this.findOne(
+    {
+      username: user.username,
+      phone: user.password,
+    },
+  ).lean()
+}
 

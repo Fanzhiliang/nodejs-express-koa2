@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 import tokenFilters from '../../filters/token'
-import { list } from '../../db/user/find'
+import User from '../../db/user'
 import { createResult } from '../../db/model/result'
 const result = createResult()
 
@@ -27,7 +27,7 @@ router.use(tokenFilters)
 */
 router.get('/', (req, res) => {
   const query = req.query
-  list({
+  User.getUserList({
     username: query.username as string,
     phone: query.phone as string,
   }, {

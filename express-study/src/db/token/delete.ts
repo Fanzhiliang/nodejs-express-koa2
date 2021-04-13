@@ -1,3 +1,5 @@
 import { Token, TokenModel } from './index'
 
-export const deleteMany = (token: TokenModel) => Token.deleteMany(token)
+export const deleteManyToken = function(this: typeof Token, token: TokenModel) {
+  return this.deleteMany(token)
+}

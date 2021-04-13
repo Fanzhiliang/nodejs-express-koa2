@@ -1,3 +1,5 @@
 import { User, UserModel } from './index'
 
-export default (user: UserModel) => User.deleteMany(user)
+export const deleteManyUser = function(this: typeof User, user: UserModel) {
+  return this.deleteMany(user)
+}

@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { insert as insertToken } from '../db/token/insert'
-import { exists as isExistsToken } from '../db/token/find'
-import { deleteMany as deleteToken } from '../db/token/delete'
+import Token from '../db/token'
 
 export interface TokenData {
   userId?: any
@@ -25,7 +23,7 @@ export const createToken = (data: TokenData): string => {
   const token = jwt.sign(payload, global.Config.TOKEN_SECRET)
 
   // 保存到数据库
-  insertToken([
+  Token.insertManyToken([
     {
       userId: data.userId,
       token,
@@ -49,7 +47,7 @@ export const parseToken = (token: string) => new Promise((resolve: (tokenData: T
     } else {
       const tokenData = payload as TokenData
       // 判断 token 是否存在
-      isExistsToken({
+      Token.isExistsToken({
         userId: tokenData.userId,
         token: token.trim(),
       }).then(isExists => {
@@ -62,7 +60,7 @@ export const parseToken = (token: string) => new Promise((resolve: (tokenData: T
 // 销毁 token
 export const removeToken = (token: string) => parseToken(token).then(tokenData => {
   // 删除数据库 token
-  return deleteToken({
+  return Token.deleteManyToken({
     userId: tokenData.userId,
     token: token.trim(),
   })
