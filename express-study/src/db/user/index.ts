@@ -41,6 +41,7 @@ const UserSchema = new mongoose.Schema<UserDocument>({
   },
 })
 
+mongoose.set('useCreateIndex', true)
 export const User = mongoose.model<UserDocument>('User', UserSchema, 'user')
 
 export default User

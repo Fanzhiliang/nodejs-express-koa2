@@ -30,6 +30,7 @@ const TokenSchema = new mongoose.Schema<TokenDocument>({
   },
 })
 
+mongoose.set('useCreateIndex', true)
 export const Token = mongoose.model<TokenDocument>('Token', TokenSchema, 'token')
 
 export default Token
