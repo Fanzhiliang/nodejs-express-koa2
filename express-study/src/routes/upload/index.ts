@@ -1,75 +1,41 @@
 import express from 'express'
 const router = express.Router()
 import path from 'path'
+import tokenFilters from '../../filters/token'
 // 上传文件设置
-const ResourcesPath = path.resolve(__dirname, '../../resources/upload/') + '/'
+const ResourcesPath = global.Config.UPLOAD_PATH
 import multer from 'multer'
 import fs from 'fs'
-import { parseTime } from '../../utils'
+import { parseTime, getSuffix, mkdirCheckExists } from '../../utils'
+import { createResult } from '../../db/model/result'
 
-// 获取文件后缀
-const getSuffix = (fileName = '') => {
-  return fileName.includes('.') ? fileName.substr(fileName.lastIndexOf('.') + 1) : ''
-}
-
-// 创建文件夹
-const mkdir = (path = '') => {
-  if (!path) return
-
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path)
-  }
-}
+router.use(tokenFilters)
 
 // 先创建上传文件夹
-mkdir(ResourcesPath)
-
-let _saveFileName = ''
-let _saveDir = ''
-const uploadNoParam = multer({
-  storage: multer.diskStorage({
-    destination: function(req, file, cb) {
-      _saveDir = ResourcesPath + parseTime(Date.now(), '{y}{m}{d}') + '/'
-      mkdir(_saveDir)
-      cb(null, _saveDir)
-    },
-    filename: function(req, file, cb) {
-      const suffix = getSuffix(file.originalname)
-      _saveFileName = Date.now() + '_' + file.fieldname + '.' + suffix
-      cb(null, _saveFileName)
-    },
-  }),
-})
-// 上传文件不获取参数
-router.post('/noParam', uploadNoParam.single('file'), (req, res) => {
-  res.send(path.join(_saveDir, _saveFileName))
-})
-
-// 多文件多字段上传
-router.post('/noParamArray', uploadNoParam.fields([
-  { name: 'file', maxCount: 1 },
-  { name: 'list', maxCount: 3 },
-]), (req, res) => {
-  res.send(req.body)
-})
+mkdirCheckExists(ResourcesPath)
 
 const uploadAbleSendParam = multer({
   storage: multer.memoryStorage(),
 })
 // 上传并且可以获取参数
-router.post('/ableSendParam', uploadAbleSendParam.single('file'), (req, res) => {
+router.post('/', uploadAbleSendParam.single('file'), (req, res) => {
+  const body = req.body
   const suffix = getSuffix(req.file.originalname)
   const now = Date.now()
-  const fileName = now + '_' + (req.body.desc || 'file') + '.' + suffix
-  const dir = ResourcesPath + parseTime(now, '{y}{m}{d}') + '/'
-  mkdir(dir)
+  const fileName = now + '_' + (body.desc || 'file') + '.' + suffix
+  const directoryPath = parseTime(now, '{y}{m}{d}') + '/'
+  const dir = ResourcesPath + directoryPath
+  mkdirCheckExists(dir)
 
   fs.writeFile(dir + fileName, Buffer.from(req.file.buffer), error => {
+    const result = createResult()
     if (error) {
-      res.status(500).send(JSON.stringify(error))
+      result.code = 1
+      result.msg = error.message
     } else {
-      res.send(path.join(dir, fileName))
+      result.data = path.posix.join(global.Config.UPLOAD_PREFIX, directoryPath, fileName)
     }
+    res.send(result)
   })
 })
 

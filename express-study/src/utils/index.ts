@@ -1,3 +1,4 @@
+import fs from 'fs'
 
 // 格式化时间戳
 export const parseTime = (time: number | string| Date, cFormat = '{y}-{m}-{d} {h}:{i}:{s}'): string => {
@@ -37,4 +38,18 @@ export const parseTime = (time: number | string| Date, cFormat = '{y}-{m}-{d} {h
     return value.toString().padStart(2, '0')
   })
   return timeStr
+}
+
+// 获取文件后缀
+export const getSuffix = (fileName = '') => {
+  return fileName.includes('.') ? fileName.substr(fileName.lastIndexOf('.') + 1) : ''
+}
+
+// 检查文件夹是否存在再创建文件夹
+export const mkdirCheckExists = (path = '') => {
+  if (!path) return
+
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path)
+  }
 }
