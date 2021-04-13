@@ -2,15 +2,15 @@ import mongoose from '../db'
 import { Document } from 'mongoose'
 
 export interface UserModel {
-  _id?: any,
+  _id?: string
   username?: string
   password?: string
   phone?: string
-  hobby?: string[],
+  hobby?: string[]
   status?: number
 }
 
-export interface UserDocument extends UserModel, Document {}
+export interface UserDocument extends UserModel, Document<string> {}
 
 const UserSchema = new mongoose.Schema<UserDocument>({
   // 设置索引

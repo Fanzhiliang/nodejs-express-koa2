@@ -36,15 +36,11 @@ export const list = async(
   })
 }
 
-// 登录
+// 根据用户名和密码查询用户信息
 export const getUserByUsernameAndPassword = (user: UserModel) => User.findOne(
   {
     username: user.username,
     phone: user.password,
   },
-  // 不显示 _id
-  {
-    _id: 0,
-  },
-)
+).lean()
 

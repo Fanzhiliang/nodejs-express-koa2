@@ -32,6 +32,7 @@ export const TOKEN_SECRET = 'fanzhiliang777'
 
 // jwt token 过期时间（毫秒）
 export const TOKEN_EXP = 1000 * 60 * 60 * 24
+// export const TOKEN_EXP = 1000 * 30
 
 // 自己导入自己
 import * as Config from './config'
