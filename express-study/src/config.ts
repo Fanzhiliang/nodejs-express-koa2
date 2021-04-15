@@ -33,7 +33,7 @@ export const MONGO_DB = 'test'
 export const TOKEN_SECRET = 'fanzhiliang777'
 
 // jwt token 过期时间（毫秒）
-export const TOKEN_EXP = 1000 * 60 * 60 * 24
+export const TOKEN_EXP = 1000 * 60 * 60 * 24 * 366
 // export const TOKEN_EXP = 1000 * 30
 
 // 上传资源目录
@@ -41,6 +41,12 @@ export const UPLOAD_PATH = path.resolve(__dirname, './resources/upload/') + '/'
 
 // 上传资源前缀
 export const UPLOAD_PREFIX = process.env.NODE_ENV === 'development' ? `${HOST}:${PORT}/resources/upload/` : `${HOST}:${PORT}/resources/upload/`
+
+// 错误日志目录
+export const ERROR_LOG_PATH = path.resolve(__dirname, './log/') + '/'
+
+// 错误日志文件名
+export const ERROR_LOG_FILENAME = 'error-log.log'
 
 // 自己导入自己
 import * as Config from './config'

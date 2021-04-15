@@ -26,10 +26,13 @@ app.set('view engine', 'html')
 import views from './views'
 app.use(views)
 
-// 错误处理中间件
-app.use((req, res) => {
-  res.status(404).send('404')
-})
+// 错误日志
+import log from './filters/log'
+log(app)
+
+// 404 中间件
+import notFound from './filters/not-found'
+app.use(notFound)
 
 app.listen(PORT, () => {
   console.log(`Server running at http://${HOST}:${PORT}/`)

@@ -41,20 +41,28 @@ clearSaveData.use((req, res, next) => {
 })
 
 // 上传文件不获取参数
-router.post('/single', clearSaveData, uploadNoParam.single('file'), (req, res) => {
-  const result = createResult()
-  result.data = path.posix.join(global.Config.UPLOAD_PREFIX, SaveDir, SaveFileNames[0])
-  res.send(result)
+router.post('/single', clearSaveData, uploadNoParam.single('file'), (req, res, next) => {
+  try {
+    const result = createResult()
+    result.data = path.posix.join(global.Config.UPLOAD_PREFIX, SaveDir, SaveFileNames[0])
+    res.send(result)
+  } catch (error) {
+    next(error)
+  }
 })
 
 // 多文件多字段上传
 router.post('/fields', clearSaveData, uploadNoParam.fields([
   { name: 'file', maxCount: 1 },
   { name: 'list', maxCount: 9 },
-]), (req, res) => {
-  const result = createResult()
-  result.data = SaveFileNames.map(name => path.posix.join(global.Config.UPLOAD_PREFIX, SaveDir, name))
-  res.send(result)
+]), (req, res, next) => {
+  try {
+    const result = createResult()
+    result.data = SaveFileNames.map(name => path.posix.join(global.Config.UPLOAD_PREFIX, SaveDir, name))
+    res.send(result)
+  } catch (error) {
+    next(error)
+  }
 })
 
 export default router

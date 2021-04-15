@@ -389,6 +389,10 @@ module.exports = router
 
 请看项目，太多东西了，忘记写了
 
+[预定义](https://blog.csdn.net/weixin_40984292/article/details/97812770)
+
+[数据校验](https://www.jianshu.com/p/96e92590d740)
+
 ### 5 typescript
 
 请看 ts-study 项目

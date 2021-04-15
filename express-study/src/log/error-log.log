@@ -1,0 +1,26 @@
+
+1618492924399
+---------------------------------------------------------------
+  错误时间: 2021-04-15 21:22:04
+
+  错误名称: Error
+
+  错误信息: 登录信息已过期
+
+  错误堆栈: Error: 登录信息已过期
+    at D:\node\nodejs-express-koa2\express-study\src\filters\token.ts:32:16
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+----------------------------------------------------------------
+
+1618493186889
+---------------------------------------------------------------
+  错误时间: 2021-04-15 21:26:26
+
+  错误名称: Error
+
+  错误信息: 登录信息已过期
+
+  错误堆栈: Error: 登录信息已过期
+    at D:\node\nodejs-express-koa2\express-study\src\filters\token.ts:32:16
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+----------------------------------------------------------------

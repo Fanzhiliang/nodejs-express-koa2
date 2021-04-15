@@ -26,17 +26,18 @@ router.use((req, res, next) => {
           req.query.user = user as any
           resolve(next())
         }).catch(() => {
-          reject('登录信息错误请重新登录')
+          reject(new Error('登录信息错误请重新登录'))
         })
       } else {
-        reject('登录信息已过期')
+        reject(new Error('登录信息已过期'))
       }
     }).catch((err: Error) => {
-      reject(err.message || '还未登录或登录信息已过期')
+      reject(err || new Error('还未登录或登录信息已过期'))
     })
-  }).catch(err => {
-    result.msg = err
+  }).catch((err: Error) => {
+    result.msg = err.message
     res.send(result)
+    next(err)
   })
 })
 

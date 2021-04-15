@@ -1,11 +1,12 @@
 export interface Result {
   /**
    * 错误代码
-   * 0：无错误
+   * 200：无错误
    * 1：数据错误
    * 2：没有权限
+   * 404：没用相关路由或者页面
   */
-  code: 0 | 1 | 2
+  code: 200 | 1 | 2 | 404
   /**
    * 响应数据
   */
@@ -19,7 +20,7 @@ export interface Result {
 export default Result
 
 export const createResult = (): Result => ({
-  code: 0,
+  code: 200,
   data: {},
   msg: '',
 })

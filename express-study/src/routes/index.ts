@@ -21,9 +21,9 @@ const autoRequireRoutes = (router: Router, currentPath = '', routePath = '') => 
       if (directoryName !== 'index.ts') {
         router.use(_routePath, directoryRoute)
       }
-    } catch (error) {
+    } catch (err) {
       // 打印导入报错信息
-      // console.error(error)
+      // console.error(err)
     }
 
     // 如果是一个文件夹，递归函数，尝试导入文件夹下的路由
