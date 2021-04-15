@@ -1,6 +1,5 @@
 import express from 'express'
 const router = express.Router()
-// import tokenFilters from '../filters/token'
 import { createResult } from '../db/model/result'
 const { SESSION_NAME } = global.Config
 import { createToken, removeToken } from '../utils/token'

@@ -1,7 +1,9 @@
-import { User, UserModel } from './index'
-import { ListParams, ListResult, createQueryOptions } from '../model/list'
+import { User, UserModel } from '../index'
+import { ListParams, ListResult, createQueryOptions } from '../../model/list'
 
-// 列表
+/**
+ * 获取用户列表
+*/
 export const getUserList = async function(
   this: typeof User,
   user: UserModel,
@@ -28,14 +30,3 @@ export const getUserList = async function(
     })
   })
 }
-
-// 根据用户名和密码查询用户信息
-export const getUserByUsernameAndPassword = function(this: typeof User, user: UserModel) {
-  return this.findOne(
-    {
-      username: user.username,
-      phone: user.password,
-    },
-  ).lean()
-}
-

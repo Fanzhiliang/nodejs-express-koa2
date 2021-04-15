@@ -1,9 +1,16 @@
 import mongoose from '../db'
 import { Document, Model } from 'mongoose'
+// 合并增删改查
 import * as insertApi from './insert'
 import * as deleteApi from './delete'
 import * as updateApi from './update'
 import * as findApi from './find'
+type InsertApi = typeof insertApi
+type DeleteApi = typeof deleteApi
+type UpdateApi = typeof updateApi
+type FindApi = typeof findApi
+interface SchemaApis extends InsertApi, DeleteApi, UpdateApi, FindApi {}
+interface SchemaStatics extends Model<TokenDocument>, SchemaApis{}
 
 export interface TokenModel {
   _id?: string
@@ -35,21 +42,13 @@ const TokenSchema = new mongoose.Schema<TokenDocument>({
   },
 })
 
-type InsertApi = typeof insertApi
-type DeleteApi = typeof deleteApi
-type UpdateApi = typeof updateApi
-type FindApi = typeof findApi
-
-interface SchemaApis extends InsertApi, DeleteApi, UpdateApi, FindApi {}
-
+// 把数据库操作方法设置到静态中
 TokenSchema.statics = {
   ...<any>insertApi,
   ...<any>deleteApi,
   ...<any>updateApi,
   ...<any>findApi,
 }
-
-interface SchemaStatics extends Model<TokenDocument>, SchemaApis{}
 
 mongoose.set('useCreateIndex', true)
 export const Token = mongoose.model<TokenDocument>('Token', TokenSchema, 'token') as SchemaStatics

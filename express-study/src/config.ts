@@ -30,7 +30,7 @@ export const MONGO_URL = `mongodb://${USERNAME}:${PASSWORD}@${HOST}:27017/`
 export const MONGO_DB = 'test'
 
 // jwt token 密钥
-export const TOKEN_SECRET = 'fanzhiliang777'
+export const TOKEN_SECRET = `${(process.env.NODE_ENV as string).toLocaleUpperCase}_TOKEN_SECRET`
 
 // jwt token 过期时间（毫秒）
 export const TOKEN_EXP = 1000 * 60 * 60 * 24 * 366
