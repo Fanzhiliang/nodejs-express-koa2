@@ -1,9 +1,10 @@
 import express from 'express'
 const router = express.Router()
 import { createResult } from '../../db/model/result'
-import User from '../../db/user'
+import User, { UserModel } from '../../db/user'
 import { megeValidator, blankStringValidator, chineseLetterNumberValidator, phoneValidator } from '../../utils/validator'
 import { md5 } from '../../utils'
+import { createToken } from '../../utils/token'
 
 router.post('/', async(req, res, next) => {
   const result = createResult()
@@ -14,6 +15,7 @@ router.post('/', async(req, res, next) => {
   const phone = body.phone as string
   const gender = body.gender as number
   const avatar = body.avatar as string
+  const md5Password = md5(password)
 
   // 验证
   const errMsg = megeValidator([{
@@ -23,7 +25,7 @@ router.post('/', async(req, res, next) => {
     handler: !chineseLetterNumberValidator(username),
     errorMsg: '用户名只能为中文、字母或数字',
   }, {
-    handler: blankStringValidator(password),
+    handler: blankStringValidator(md5Password),
     errorMsg: '请输入密码',
   }, {
     handler: !phoneValidator(phone),
@@ -33,25 +35,29 @@ router.post('/', async(req, res, next) => {
   if (errMsg) {
     result.code = 1
     result.msg = errMsg
-    res.send(result)
   } else {
     try {
-      await User.insertManyUser([{
+      const [data] = await User.insertManyUser([{
         username,
-        password: md5(password),
+        password: md5Password,
         phone,
         gender,
         avatar,
       }])
+      const user = data as UserModel
+      result.data = await createToken({
+        userId: user?._id,
+        username,
+        password: md5Password,
+      })
       result.msg = '注册成功'
     } catch (error) {
       result.msg = error.message
       result.code = 1
       next(error)
     }
-
-    res.send(result)
   }
+  res.send(result)
 })
 
 export default router

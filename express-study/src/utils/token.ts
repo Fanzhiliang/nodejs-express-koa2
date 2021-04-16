@@ -10,7 +10,7 @@ export interface TokenData {
 }
 
 // 创建 token
-export const createToken = (data: TokenData): string => {
+export const createToken = async(data: TokenData): Promise<string> => {
   const iat = Date.now()
   const exp = iat + global.Config.TOKEN_EXP
 
@@ -23,7 +23,7 @@ export const createToken = (data: TokenData): string => {
   const token = jwt.sign(payload, global.Config.TOKEN_SECRET)
 
   // 保存到数据库
-  Token.insertManyToken([
+  await Token.insertManyToken([
     {
       userId: data.userId,
       token,
@@ -37,8 +37,8 @@ export const createToken = (data: TokenData): string => {
 
 // 解析 token
 export const parseToken = (token: string) => new Promise((resolve: (tokenData: TokenData) => void, reject) => {
-  if (!token.trim()) {
-    reject('token 为空')
+  if (!token || !token.trim()) {
+    reject(new Error('token 为空'))
   }
 
   jwt.verify(token, global.Config.TOKEN_SECRET, (err, payload) => {
@@ -51,7 +51,7 @@ export const parseToken = (token: string) => new Promise((resolve: (tokenData: T
         userId: tokenData.userId,
         token: token.trim(),
       }).then(isExists => {
-        isExists ? resolve(tokenData) : reject('token 不存在')
+        isExists ? resolve(tokenData) : reject(new Error('token 不存在'))
       })
     }
   })

@@ -5,7 +5,7 @@ import { createToken } from '../../utils/token'
 import User from '../../db/user'
 import { md5 } from '../../utils'
 
-router.get('/', (req, res, next) => {
+router.get('/', async(req, res, next) => {
   const result = createResult()
 
   const query = req.query
@@ -15,34 +15,33 @@ router.get('/', (req, res, next) => {
 
   if (username && md5Password) {
     try {
-      User.getUserByUsernameAndPassword({
+      const user = await User.getUserByUsernameAndPassword({
         username,
         password: md5Password,
-      }).then((data) => {
-        const isValidate = data?.username === username && data?.password === md5Password
-
-        if (isValidate) {
-          result.code = 200
-          result.data = createToken({
-            userId: data?._id,
-            username,
-            password: md5Password,
-          })
-        } else {
-          result.code = 1
-          result.msg = '用户名或密码错误'
-        }
-      }).finally(() => {
-        res.send(result)
       })
+
+      const isValidate = user?.username === username && user?.password === md5Password
+
+      if (isValidate) {
+        result.code = 200
+        result.data = await createToken({
+          userId: user?._id,
+          username,
+          password: md5Password,
+        })
+      } else {
+        result.code = 1
+        result.msg = '用户名或密码错误'
+      }
     } catch (error) {
       next(error)
     }
   } else {
     result.code = 1
     result.msg = '请输入用户名和密码'
-    res.send(result)
   }
+
+  res.send(result)
 })
 
 export default router

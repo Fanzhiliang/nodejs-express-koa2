@@ -4,44 +4,42 @@ import { parseToken } from '../utils/token'
 import { createResult } from '../db/model/result'
 const result = createResult()
 import User from '../db/user'
-const { TOKEN_KEY } = global.Config
 
-router.use((req, res, next) => {
+router.use(async(req, res, next) => {
   result.code = 2
 
-  // const cookie = req.cookies[TOKEN_KEY]
-  // const session = req.session[SESSION_NAME]
-  const token = req.headers[TOKEN_KEY] as string
+  // const cookie = req.cookies[global.Config.TOKEN_KEY]
+  // const session = req.session[global.Config.SESSION_NAME]
+  const token = req.headers[global.Config.TOKEN_KEY] as string
 
-  new Promise<any>((resolve, reject) => {
-    parseToken(token).then((tokenData) => {
-      const now = Date.now()
-      const exp = tokenData.exp || 0
-      if (now < exp) {
-        return User.getUserByUsernameAndPassword({
-          username: tokenData.username as string,
-          password: tokenData.password as string,
-        }).then((user) => {
-          if (user) {
-            req.query.user = user as any
-            resolve(next())
-          } else {
-            reject('登录信息不存在请重新登录')
-          }
-        }).catch(() => {
-          reject('登录信息错误请重新登录')
-        })
+  try {
+    const tokenData = await parseToken(token)
+
+    const now = Date.now()
+    const exp = tokenData.exp || 0
+    if (now < exp) {
+      const user = await User.getUserByUsernameAndPassword({
+        username: tokenData.username as string,
+        password: tokenData.password as string,
+      })
+
+      // 是否存在该用户信息
+      if (user) {
+        req.query.user = user as any
+        next()
       } else {
-        reject('登录信息已过期')
+        throw new Error('登录信息不存在请重新登录')
       }
-    }).catch((err: Error) => {
-      reject(err || '还未登录或登录信息已过期')
-    })
-  }).catch((err: Error | string) => {
-    result.msg = typeof err === 'string' ? err : err.message
+    } else {
+      throw new Error('登录信息已过期')
+    }
+  } catch (error) {
+    const err = error as Error
+    result.msg = err.message || '还未登录或登录信息已过期'
     res.send(result)
-    err instanceof Error && next(err)
-  })
+    // 如果是普通错误不输出到日志
+    err.name !== 'Error' && next(err)
+  }
 })
 
 export default router
