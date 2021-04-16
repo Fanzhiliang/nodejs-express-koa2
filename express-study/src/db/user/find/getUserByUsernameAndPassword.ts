@@ -10,7 +10,7 @@ export const getUserByUsernameAndPassword = function(
   return this.findOne(
     {
       username: user.username,
-      phone: user.password,
+      password: user.password,
     },
   ).lean()
 }

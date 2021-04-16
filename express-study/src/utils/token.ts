@@ -38,7 +38,7 @@ export const createToken = (data: TokenData): string => {
 // 解析 token
 export const parseToken = (token: string) => new Promise((resolve: (tokenData: TokenData) => void, reject) => {
   if (!token.trim()) {
-    reject(new Error('token 为空'))
+    reject('token 为空')
   }
 
   jwt.verify(token, global.Config.TOKEN_SECRET, (err, payload) => {
@@ -51,7 +51,7 @@ export const parseToken = (token: string) => new Promise((resolve: (tokenData: T
         userId: tokenData.userId,
         token: token.trim(),
       }).then(isExists => {
-        isExists ? resolve(tokenData) : reject(new Error('token 不存在'))
+        isExists ? resolve(tokenData) : reject('token 不存在')
       })
     }
   })

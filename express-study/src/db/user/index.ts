@@ -9,23 +9,26 @@ type InsertApi = typeof insertApi
 type DeleteApi = typeof deleteApi
 type UpdateApi = typeof updateApi
 type FindApi = typeof findApi
-interface SchemaApis extends InsertApi, DeleteApi, UpdateApi, FindApi {}
-interface SchemaStatics extends Model<UserDocument>, SchemaApis{}
+interface SchemaApis extends InsertApi, DeleteApi, UpdateApi, FindApi { }
+interface SchemaStatics extends Model<UserDocument>, SchemaApis { }
 
 export interface UserModel {
   _id?: string
   username?: string
   password?: string
   phone?: string
-  hobby?: string[]
+  gender?: number
+  createTime?: Date
+  avatar?: string
   status?: number
 }
 
-export interface UserDocument extends UserModel, Document<string> {}
+export interface UserDocument extends UserModel, Document<string> { }
 
 const UserSchema = new mongoose.Schema<UserDocument>({
   // 设置索引
   username: {
+    require: true,
     type: String,
     // 唯一索引
     unique: true,
@@ -36,18 +39,43 @@ const UserSchema = new mongoose.Schema<UserDocument>({
   },
   // 密码
   password: {
+    require: true,
     type: String,
     trim: true,
   },
   phone: {
+    require: true,
     type: String,
     unique: true,
     trim: true,
   },
-  hobby: Array,
+  /**
+   * 性别
+   * (0: 未知、1: 男、2: 女)
+  */
+  gender: {
+    type: Number,
+    enum: [0, 1, 2],
+    default: 0,
+  },
+  // 创建时间
+  createTime: {
+    type: Date,
+    default: () => new Date(),
+  },
+  // 头像
+  avatar: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  /**
+   * 状态
+   * (0: 禁用、1: 正常)
+  */
   status: {
     type: Number,
-    // 默认值
+    enum: [0, 1],
     default: 1,
   },
 })

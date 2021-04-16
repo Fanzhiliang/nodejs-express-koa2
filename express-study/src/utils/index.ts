@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import crypto from 'crypto'
 
 // 格式化时间戳
 export const parseTime = (time: number | string| Date, cFormat = '{y}-{m}-{d} {h}:{i}:{s}'): string => {
@@ -75,3 +76,6 @@ export const writeAppendFile = (savePath = '', fileName = '', val = '') => new P
     )
   }
 })
+
+// MD5 加密
+export const md5 = (val = '') => crypto.createHash('md5').update(val, 'utf-8').digest('hex')
