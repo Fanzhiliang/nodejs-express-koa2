@@ -397,6 +397,13 @@ module.exports = router
 
 请看 ts-study 项目
 
+### 6 接口文档
+
+```
+npm install apidoc -g
+```
+
+[文档](https://apidocjs.com/)
 
 
 

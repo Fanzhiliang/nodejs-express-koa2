@@ -5,12 +5,12 @@ import * as insertApi from './insert'
 import * as deleteApi from './delete'
 import * as updateApi from './update'
 import * as findApi from './find'
-type InsertApi = typeof insertApi
-type DeleteApi = typeof deleteApi
-type UpdateApi = typeof updateApi
-type FindApi = typeof findApi
-interface SchemaApis extends InsertApi, DeleteApi, UpdateApi, FindApi {}
-interface SchemaStatics extends Model<TokenDocument>, SchemaApis{}
+
+/**
+ * @apiDefine Authorization
+ *
+ * @apiHeader {String} authorization 必填
+ */
 
 export interface TokenModel {
   _id?: string
@@ -40,7 +40,16 @@ const TokenSchema = new mongoose.Schema<TokenDocument>({
     type: Number,
     default: Date.now(),
   },
+}, {
+  versionKey: false,
 })
+
+type InsertApi = typeof insertApi
+type DeleteApi = typeof deleteApi
+type UpdateApi = typeof updateApi
+type FindApi = typeof findApi
+interface SchemaApis extends InsertApi, DeleteApi, UpdateApi, FindApi {}
+interface SchemaStatics extends Model<TokenDocument>, SchemaApis{}
 
 // 把数据库操作方法设置到静态中
 TokenSchema.statics = {

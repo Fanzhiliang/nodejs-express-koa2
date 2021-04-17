@@ -6,6 +6,15 @@ import { megeValidator, blankStringValidator, chineseLetterNumberValidator, phon
 import { md5 } from '../../utils'
 import { createToken } from '../../utils/token'
 
+/**
+ * @api {Post} /auth/register register 注册
+ * @apiGroup auth
+ *
+ * @apiUse UserParam
+ *
+ * @apiUse Result
+ * @apiSuccess {String} data 返回的token
+ */
 router.post('/', async(req, res, next) => {
   const result = createResult()
 

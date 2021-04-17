@@ -5,6 +5,16 @@ import { createToken } from '../../utils/token'
 import User from '../../db/user'
 import { md5 } from '../../utils'
 
+/**
+ * @api {Get} /auth/login login 登录
+ * @apiGroup auth
+ *
+ * @apiParam {String} username 用户名
+ * @apiParam {String} password 密码
+ *
+ * @apiUse Result
+ * @apiSuccess {String} data 返回的token
+ */
 router.get('/', async(req, res, next) => {
   const result = createResult()
 

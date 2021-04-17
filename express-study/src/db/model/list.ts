@@ -1,5 +1,13 @@
 import { QueryOptions, Schema } from 'mongoose'
 
+/**
+ * @apiDefine ListParams
+ *
+ * @apiParam {Number} current 第几页
+ * @apiParam {Number} size 页面大小
+ * @apiParam {String} sort 排序字段
+ * @apiParam {String} order 排序顺序 (asc：升序  desc：降序)
+ */
 // 分页参数
 export interface ListParams {
   // 第几页
@@ -29,6 +37,13 @@ export const DefaultParams: ListParams = {
   // 默认升序
   order: 'asc',
 }
+
+/**
+ * @apiDefine ListResult
+ *
+ * @apiSuccess {Object} data 响应数据
+ * @apiSuccess {Number} data.total 总数
+ */
 
 // 分页结果
 export interface ListResult<T> {

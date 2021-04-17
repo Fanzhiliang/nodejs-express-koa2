@@ -4,6 +4,15 @@ import tokenFilters from '../../filters/token'
 import { createResult } from '../../db/model/result'
 import { UserModel } from '../../db/user'
 
+/**
+ * @api {Get} /user/getUserInfo getUserInfo 获取用户信息
+ * @apiGroup user
+ *
+ * @apiUse Authorization
+ *
+ * @apiUse Result
+ * @apiUse UserSuccess
+ */
 router.get('/', tokenFilters, (req, res) => {
   const result = createResult()
 

@@ -5,28 +5,79 @@ import * as insertApi from './insert'
 import * as deleteApi from './delete'
 import * as updateApi from './update'
 import * as findApi from './find'
-type InsertApi = typeof insertApi
-type DeleteApi = typeof deleteApi
-type UpdateApi = typeof updateApi
-type FindApi = typeof findApi
-interface SchemaApis extends InsertApi, DeleteApi, UpdateApi, FindApi { }
-interface SchemaStatics extends Model<UserDocument>, SchemaApis { }
+
+/**
+ * @apiDefine UserParam
+ *
+ * @apiParam {String} _id id
+ * @apiParam {String} username 用户名
+ * @apiParam {String} password 密码
+ * @apiParam {String} phone 电话号码
+ * @apiParam {Number} gender 性别 (0: 未知  1: 男  2: 女)
+ * @apiParam {Number} createTime 创建时间
+ * @apiParam {String} avatar 头像
+ * @apiParam {Number} status 状态 (0: 禁用  1: 正常)
+ */
+
+/**
+ * @apiDefine UserSuccess
+ *
+ * @apiSuccess {String} _id id
+ * @apiSuccess {String} username 用户名
+ * @apiSuccess {String} password 密码
+ * @apiSuccess {String} phone 电话号码
+ * @apiSuccess {Number} gender 性别 (0: 未知  1: 男  2: 女)
+ * @apiSuccess {Number} createTime 创建时间
+ * @apiSuccess {String} avatar 头像
+ * @apiSuccess {Number} status 状态 (0: 禁用  1: 正常)
+ */
+
+/**
+ * @apiDefine UserSuccessExample
+ *
+ * @apiSuccessExample 用户
+ * {
+ *   // id
+ *   _id?: string
+ *   // 用户名
+ *   username?: string
+ *   // 密码
+ *   password?: string
+ *   // 电话号码
+ *   phone?: string
+ *   // 性别 (0: 未知  1: 男  2: 女)
+ *   gender?: number
+ *   // 创建时间
+ *   createTime?: number
+ *   // 头像
+ *   avatar?: string
+ *   // 状态 (0: 禁用  1: 正常)
+ *   status?: number
+ * }
+ */
 
 export interface UserModel {
+  // id
   _id?: string
+  // 用户名
   username?: string
+  // 密码
   password?: string
+  // 电话号码
   phone?: string
+  // 性别 (0: 未知  1: 男  2: 女)
   gender?: number
-  createTime?: Date
+  // 创建时间
+  createTime?: number
+  // 头像
   avatar?: string
+  // 状态 (0: 禁用  1: 正常)
   status?: number
 }
 
 export interface UserDocument extends UserModel, Document<string> { }
 
 const UserSchema = new mongoose.Schema<UserDocument>({
-  // 设置索引
   username: {
     require: true,
     type: String,
@@ -37,7 +88,6 @@ const UserSchema = new mongoose.Schema<UserDocument>({
     // 去除左右空格
     trim: true,
   },
-  // 密码
   password: {
     require: true,
     type: String,
@@ -49,36 +99,35 @@ const UserSchema = new mongoose.Schema<UserDocument>({
     unique: true,
     trim: true,
   },
-  /**
-   * 性别
-   * (0: 未知、1: 男、2: 女)
-  */
   gender: {
     type: Number,
     enum: [0, 1, 2],
     default: 0,
   },
-  // 创建时间
   createTime: {
-    type: Date,
-    default: () => new Date(),
+    type: Number,
+    default: () => Date.now(),
   },
-  // 头像
   avatar: {
     type: String,
     trim: true,
     default: '',
   },
-  /**
-   * 状态
-   * (0: 禁用、1: 正常)
-  */
   status: {
     type: Number,
     enum: [0, 1],
     default: 1,
   },
+}, {
+  versionKey: false,
 })
+
+type InsertApi = typeof insertApi
+type DeleteApi = typeof deleteApi
+type UpdateApi = typeof updateApi
+type FindApi = typeof findApi
+interface SchemaApis extends InsertApi, DeleteApi, UpdateApi, FindApi { }
+interface SchemaStatics extends Model<UserDocument>, SchemaApis { }
 
 // 把数据库操作方法设置到静态中
 UserSchema.statics = {

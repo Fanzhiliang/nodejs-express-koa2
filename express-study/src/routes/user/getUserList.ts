@@ -4,9 +4,21 @@ import tokenFilters from '../../filters/token'
 import User from '../../db/user'
 import { createResult } from '../../db/model/result'
 
-router.use(tokenFilters)
-
-router.get('/', async(req, res, next) => {
+/**
+ * @api {Get} /user/getUserList getUserList 获取用户列表
+ * @apiGroup user
+ *
+ * @apiUse Authorization
+ *
+ * @apiUse ListParams
+ *
+ * @apiUse Result
+ * @apiUse ListResult
+ * @apiSuccess {Array} data.list 用户数组 (看下方json)
+ *
+ * @apiUse UserSuccessExample
+ */
+router.get('/', tokenFilters, async(req, res, next) => {
   const query = req.query
 
   const result = createResult()

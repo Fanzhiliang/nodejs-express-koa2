@@ -4,6 +4,14 @@ import { createResult } from '../../db/model/result'
 const { SESSION_NAME } = global.Config
 import { removeToken } from '../../utils/token'
 
+/**
+ * @api {Get} /auth/logout logout 退出登录
+ * @apiGroup auth
+ *
+ * @apiUse Authorization
+ *
+ * @apiUse Result
+ */
 router.get('/', (req, res, next) => {
   const result = createResult()
 

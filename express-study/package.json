@@ -7,7 +7,8 @@
     "dev": "set NODE_ENV=development && ts-node-dev --respawn --transpile-only ./src/app.ts",
     "files": "copyfiles -u 1 ./src/views/**/*.html ./src/public/**/* ./build/ && mkdirp ./build/resources",
     "build": "npm run files && set NODE_ENV=production && tsc",
-    "prod": "npm run build && supervisor ./build/app.js"
+    "prod": "npm run build && supervisor ./build/app.js",
+    "apidoc": "apidoc -i ./src -o ./src/public/apidoc"
   },
   "keywords": [],
   "author": "",
