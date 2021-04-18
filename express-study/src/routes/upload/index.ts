@@ -17,7 +17,20 @@ mkdirCheckExists(ResourcesPath)
 const uploadAbleSendParam = multer({
   storage: multer.memoryStorage(),
 })
-// 上传并且可以获取参数
+
+/**
+ * @api {Post} /upload upload 上传单个文件(可获取参数)
+ * @apiGroup upload 上传
+ *
+ * @apiUse Authorization
+ *
+ * @apiParam {File} file 文件
+ * @apiParam {String} desc 文件描述
+ *
+ * @apiUse Result
+ * @apiSuccess {String} data 地址
+ */
+
 router.post('/', uploadAbleSendParam.single('file'), (req, res, next) => {
   try {
     const body = req.body

@@ -40,7 +40,17 @@ clearSaveData.use((req, res, next) => {
   next()
 })
 
-// 上传文件不获取参数
+/**
+ * @api {Post} /upload/noParam/single single 上传单个文件
+ * @apiGroup upload 上传
+ *
+ * @apiUse Authorization
+ *
+ * @apiParam {File} file 文件
+ *
+ * @apiUse Result
+ * @apiSuccess {String} data 地址
+ */
 router.post('/single', clearSaveData, uploadNoParam.single('file'), (req, res, next) => {
   try {
     const result = createResult()
@@ -51,6 +61,18 @@ router.post('/single', clearSaveData, uploadNoParam.single('file'), (req, res, n
   }
 })
 
+/**
+ * @api {Post} /upload/noParam/fields fields 上传多个文件
+ * @apiGroup upload 上传
+ *
+ * @apiUse Authorization
+ *
+ * @apiParam {File} file 单个文件
+ * @apiParam {File} list 多个文件 (最多9个文件)
+ *
+ * @apiUse Result
+ * @apiSuccess {String[]} data 地址数组
+ */
 // 多文件多字段上传
 router.post('/fields', clearSaveData, uploadNoParam.fields([
   { name: 'file', maxCount: 1 },

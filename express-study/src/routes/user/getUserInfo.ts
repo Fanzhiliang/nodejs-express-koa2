@@ -6,7 +6,7 @@ import { UserModel } from '../../db/user'
 
 /**
  * @api {Get} /user/getUserInfo getUserInfo 获取用户信息
- * @apiGroup user
+ * @apiGroup user 用户
  *
  * @apiUse Authorization
  *

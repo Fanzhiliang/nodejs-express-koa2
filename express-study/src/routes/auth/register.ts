@@ -8,7 +8,7 @@ import { createToken } from '../../utils/token'
 
 /**
  * @api {Post} /auth/register register 注册
- * @apiGroup auth
+ * @apiGroup auth 权限
  *
  * @apiUse UserParam
  *

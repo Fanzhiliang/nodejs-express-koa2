@@ -6,7 +6,7 @@ import { createResult } from '../../db/model/result'
 
 /**
  * @api {Get} /user/getUserList getUserList 获取用户列表
- * @apiGroup user
+ * @apiGroup user 用户
  *
  * @apiUse Authorization
  *
@@ -14,7 +14,7 @@ import { createResult } from '../../db/model/result'
  *
  * @apiUse Result
  * @apiUse ListResult
- * @apiSuccess {Array} data.list 用户数组 (看下方json)
+ * @apiSuccess {User[]} data.list 用户数组 (看下方json)
  *
  * @apiUse UserSuccessExample
  */

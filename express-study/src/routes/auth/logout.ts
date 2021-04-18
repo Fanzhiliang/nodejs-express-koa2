@@ -6,7 +6,7 @@ import { removeToken } from '../../utils/token'
 
 /**
  * @api {Get} /auth/logout logout 退出登录
- * @apiGroup auth
+ * @apiGroup auth 权限
  *
  * @apiUse Authorization
  *
