@@ -442,6 +442,52 @@ db.order.aggregate([
 ])
 ```
 
+```js
+db.order.aggregate([
+  {
+    $lookup: {
+      from: "user",
+      localField: "userId",
+      foreignField: "_id",
+      as: "user"
+    }
+  },
+  {
+    $lookup: {
+      from: "child-order",
+      localField: "childOrderIds",
+      foreignField: "_id",
+      as: "orderList"
+    }
+  },
+  {
+    $lookup: {
+      from: "goods",
+      localField: "orderList.goodsId",
+      foreignField: "_id",
+      as: "goodsList"
+    }
+  },
+  {
+    $unwind: "$user"
+  },
+  {
+    $addFields: {
+      username: "$user.username",
+      phone: "$user.phone",
+    }
+  },
+  {
+    $project: {
+      childOrderIds: 0,
+      user: 0,
+    }
+  }
+])
+```
+
+{ "_id" : "607bfc21d7b9512810e13740", "userId" : "607ae666d595193700fc1443", "createTime" : 1618736730218, "status" : 1, "orderList" : [ { "_id" : "607bf999d7b9512810e13737", "goodsId" : "607bf7cfd7b9512810e13733", "number" : 20 }, { "_id" : "607bfbfed7b9512810e1373e", "goodsId" : "607bfbe0d7b9512810e1373d", "price" : 20 } ], "goodsList" : [ { "_id" : "607bf7cfd7b9512810e13733", "name" : "憨憨牌无线鼠标", "price" : 52.99, "createTime" : 1618667110474 }, { "_id" : "607bfbe0d7b9512810e1373d", "name" : "Tenda 路由器", "price" : 59.99, "createTime" : 1618667110474 } ], "username" : "fanzhiliang", "phone" : "13128269543" }
+
 2.10 数据库导出和备份
 
 ```

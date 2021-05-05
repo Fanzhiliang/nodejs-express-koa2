@@ -61,9 +61,21 @@ router.post('/', async(req, res, next) => {
       })
       result.msg = '注册成功'
     } catch (error) {
-      result.msg = error.message
+      const err = error as Error
+      result.msg = err.message
+
+      // 唯一索引的字段重复
+      if (err.name === 'BulkWriteError') {
+        // 判断是什么字段重复
+        if (err.message.includes('username')) {
+          result.msg = '用户名已被注册'
+        } else if (err.message.includes('phone')) {
+          result.msg = '手机号码已被注册'
+        }
+      }
+
       result.code = 1
-      next(error)
+      next(err)
     }
   }
   res.send(result)
