@@ -58,9 +58,20 @@ export const getOrderList = async function(
       .limit(query.limit as number)
       .sort(query.sort),
     this.count(),
-  ]).then(([list, total]) => {
+  ]).then(([_list, total]) => {
+    const list = _list as OrderModel[]
+    // 设置商品列表的商品数量
+    list.forEach(item => {
+      item.goodsList?.forEach(it => {
+        const findObj = item.orderList?.find(i => i.goodsId?.toString() === it._id?.toString())
+        if (findObj) {
+          it.number = findObj.number
+        }
+      })
+      delete item.orderList
+    })
     return Promise.resolve({
-      list: list as OrderModel[],
+      list,
       total,
     })
   })

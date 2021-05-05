@@ -33,16 +33,6 @@ router.get('/', tokenFilters, async(req, res, next) => {
       sort: query.sort as string,
       order: query.order as string,
     })
-    // 设置商品列表的商品数量
-    data.list.forEach(item => {
-      item.goodsList?.forEach(it => {
-        const findObj = item.orderList?.find(i => i.goodsId?.toString() === it._id?.toString())
-        if (findObj) {
-          it.number = findObj.number
-        }
-        delete item.orderList
-      })
-    })
     // 查询成功
     result.code = 200
     result.data = data
