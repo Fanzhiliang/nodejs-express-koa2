@@ -14,8 +14,10 @@ export const SESSION_SECRET = 'fanzhiliang'
 // session 对应的 cookie 名
 export const SESSION_NAME = 'express_test_session'
 
-// 服务器地址
-export const HOST = 'localhost'
+// 本地服务器地址
+// export const HOST = 'localhost'
+// 远程服务器地址
+export const HOST = '120.78.128.4'
 
 // 数据库用户名
 export const USERNAME = 'admin'
