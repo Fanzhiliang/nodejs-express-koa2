@@ -1,10 +1,21 @@
 import express from 'express'
-import Admin from '../../db/admin'
 const router = express.Router()
+import Admin from '../../db/admin'
 import { Code, createResult } from '../../db/common-model/result'
+import tokenFilter from '../../filters/token'
 import { md5 } from '../../utils'
 import { blankStringValidator, chineseLetterNumberValidator, megeValidator } from '../../utils/validator'
 
+router.use(tokenFilter)
+
+/**
+ * @api {Post} /admin/add add 添加管理员
+ * @apiGroup admin 管理员
+ *
+ * @apiUse AdminParam
+ *
+ * @apiUse Result
+ */
 router.post('/', async(req, res, next) => {
   const result = createResult()
 
@@ -49,3 +60,5 @@ router.post('/', async(req, res, next) => {
 
   res.send(result)
 })
+
+export default router

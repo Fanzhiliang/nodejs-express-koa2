@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import tokenFilters from '../../filters/token'
+import tokenFilter from '../../filters/token'
 import Order from '../../db/order'
 import { UserModel } from '../../db/user'
 import { Code, createResult } from '../../db/common-model/result'
@@ -21,7 +21,7 @@ import { Code, createResult } from '../../db/common-model/result'
  * @apiUse GoodsSuccessExample
  */
 
-router.get('/', tokenFilters, async(req, res, next) => {
+router.get('/', tokenFilter, async(req, res, next) => {
   const query = req.query
   const user = query.user as UserModel
 

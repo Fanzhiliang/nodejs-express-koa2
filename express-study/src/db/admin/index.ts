@@ -12,7 +12,7 @@ import * as findApi from './find'
  *
  * @apiParam {String} _id id
  * @apiParam {String} username 管理员名称
- * @apiSuccess {String} password 密码
+ * @apiParam {String} password 密码
  * @apiParam {Number} createTime 创建时间
  * @apiParam {String} avatar 头像
  * @apiParam {Number} status 状态 (0: 禁用  1: 正常)
@@ -118,6 +118,6 @@ AdminSchema.statics = {
 }
 
 mongoose.set('useCreateIndex', true)
-export const Admin = mongoose.model<AdminDocument>('User', AdminSchema, 'user') as SchemaStatics
+export const Admin = mongoose.model<AdminDocument>('Admin', AdminSchema, 'admin') as SchemaStatics
 
 export default Admin

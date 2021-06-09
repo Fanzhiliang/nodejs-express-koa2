@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import tokenFilters from '../../filters/token'
+import tokenFilter from '../../filters/token'
 import { Code, createResult } from '../../db/common-model/result'
 import { User, UserModel } from '../../db/user'
 import { blankStringValidator, chineseLetterNumberValidator, megeValidator, phoneValidator } from '../../utils/validator'
@@ -15,7 +15,7 @@ import { blankStringValidator, chineseLetterNumberValidator, megeValidator, phon
  *
  * @apiUse Result
  */
-router.post('/', tokenFilters, async(req, res, next) => {
+router.post('/', tokenFilter, async(req, res, next) => {
   const result = createResult()
 
   const body = req.body

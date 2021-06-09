@@ -1,11 +1,11 @@
 import express from 'express'
-const router = express.Router()
+const tokenFilter = express.Router()
 import { parseToken } from '../utils/token'
 import { Code, createResult } from '../db/common-model/result'
 const result = createResult()
 import User from '../db/user'
 
-router.use(async(req, res, next) => {
+tokenFilter.use(async(req, res, next) => {
   result.code = Code.AuthError
 
   // const cookie = req.cookies[global.Config.TOKEN_KEY]
@@ -42,4 +42,4 @@ router.use(async(req, res, next) => {
   }
 })
 
-export default router
+export default tokenFilter

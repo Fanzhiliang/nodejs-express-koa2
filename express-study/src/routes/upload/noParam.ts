@@ -1,14 +1,14 @@
 import express from 'express'
 const router = express.Router()
 import path from 'path'
-import tokenFilters from '../../filters/token'
+import tokenFilter from '../../filters/token'
 // 上传文件设置
 const ResourcesPath = global.Config.UPLOAD_PATH
 import multer from 'multer'
 import { parseTime, getSuffix, mkdirCheckExists } from '../../utils'
 import { createResult } from '../../db/common-model/result'
 
-router.use(tokenFilters)
+router.use(tokenFilter)
 
 // 先创建上传文件夹
 mkdirCheckExists(ResourcesPath)
