@@ -10,7 +10,7 @@ import { md5 } from '../../utils'
  * @apiGroup auth 权限
  *
  * @apiParam {String} username=fanzhiliang 用户名
- * @apiParam {String} password=47789.321 密码
+ * @apiParam {String} password=123456 密码
  *
  * @apiUse Result
  * @apiSuccess {String} data 返回的token

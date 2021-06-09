@@ -12,6 +12,8 @@ router.use(tokenFilter)
  * @api {Post} /admin/add add 添加管理员
  * @apiGroup admin 管理员
  *
+ * @apiUse Authorization
+ *
  * @apiUse AdminParam
  *
  * @apiUse Result
