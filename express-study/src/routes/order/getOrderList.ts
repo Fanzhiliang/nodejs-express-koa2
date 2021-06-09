@@ -3,7 +3,7 @@ const router = express.Router()
 import tokenFilters from '../../filters/token'
 import Order from '../../db/order'
 import { UserModel } from '../../db/user'
-import { createResult } from '../../db/model/result'
+import { Code, createResult } from '../../db/common-model/result'
 
 /**
  * @api {Get} /order/getOrderList getOrderList 获取订单列表
@@ -34,11 +34,11 @@ router.get('/', tokenFilters, async(req, res, next) => {
       order: query.order as string,
     })
     // 查询成功
-    result.code = 200
+    result.code = Code.Success
     result.data = data
   } catch (error) {
     // 报错
-    result.code = 1
+    result.code = Code.DataError
     result.msg = error
     next(error)
   }

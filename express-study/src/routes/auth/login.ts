@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { createResult } from '../../db/model/result'
+import { Code, createResult } from '../../db/common-model/result'
 import { createToken } from '../../utils/token'
 import User from '../../db/user'
 import { md5 } from '../../utils'
@@ -33,21 +33,21 @@ router.get('/', async(req, res, next) => {
       const isValidate = user?.username === username && user?.password === md5Password
 
       if (isValidate) {
-        result.code = 200
+        result.code = Code.Success
         result.data = await createToken({
           userId: user?._id,
           username,
           password: md5Password,
         })
       } else {
-        result.code = 1
+        result.code = Code.DataError
         result.msg = '用户名或密码错误'
       }
     } catch (error) {
       next(error)
     }
   } else {
-    result.code = 1
+    result.code = Code.DataError
     result.msg = '请输入用户名和密码'
   }
 

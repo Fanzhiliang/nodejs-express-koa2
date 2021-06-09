@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import mongoose from '../db'
 import { Document, Model } from 'mongoose'
 // 合并增删改查
@@ -56,6 +57,14 @@ export interface OrderModel {
   phone?: string
 }
 
+export enum OrderStatus {
+  Cancel = -1,
+  WaitPay = 0,
+  WaitDeliver = 1,
+  Delivered = 2,
+  Completed = 3,
+}
+
 export interface OrderDocument extends OrderModel, Document<string> {}
 
 const OrderSchema = new mongoose.Schema<OrderDocument>({
@@ -69,6 +78,8 @@ const OrderSchema = new mongoose.Schema<OrderDocument>({
   status: {
     type: Number,
     require: true,
+    enum: OrderStatus,
+    default: OrderStatus.Cancel,
   },
   childOrderIds: {
     type: Array,

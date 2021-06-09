@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { createResult } from '../../db/model/result'
+import { Code, createResult } from '../../db/common-model/result'
 const { SESSION_NAME } = global.Config
 import { removeToken } from '../../utils/token'
 
@@ -28,7 +28,7 @@ router.get('/', (req, res, next) => {
   try {
     removeToken(token).finally(() => {
       // 响应结果
-      result.code = 200
+      result.code = Code.Success
       result.msg = '退出成功'
       res.send(result)
     })

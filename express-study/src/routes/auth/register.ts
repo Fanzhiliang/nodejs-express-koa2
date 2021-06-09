@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { createResult } from '../../db/model/result'
+import { Code, createResult } from '../../db/common-model/result'
 import User, { UserModel } from '../../db/user'
 import { megeValidator, blankStringValidator, chineseLetterNumberValidator, phoneValidator } from '../../utils/validator'
 import { md5 } from '../../utils'
@@ -42,7 +42,7 @@ router.post('/', async(req, res, next) => {
   }])
 
   if (errMsg) {
-    result.code = 1
+    result.code = Code.DataError
     result.msg = errMsg
   } else {
     try {
@@ -74,7 +74,7 @@ router.post('/', async(req, res, next) => {
         }
       }
 
-      result.code = 1
+      result.code = Code.DataError
       next(err)
     }
   }

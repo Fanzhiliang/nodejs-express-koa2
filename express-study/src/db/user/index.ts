@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import mongoose from '../db'
 import { Document, Model } from 'mongoose'
 // 合并增删改查
@@ -75,6 +76,19 @@ export interface UserModel {
   status?: number
 }
 
+// 性别
+export enum UserGender {
+  Unknown = 0,
+  Male = 1,
+  Female = 2,
+}
+
+// 状态
+export enum UserStatus {
+  Disable = 0,
+  Normal = 1,
+}
+
 export interface UserDocument extends UserModel, Document<string> { }
 
 const UserSchema = new mongoose.Schema<UserDocument>({
@@ -101,8 +115,8 @@ const UserSchema = new mongoose.Schema<UserDocument>({
   },
   gender: {
     type: Number,
-    enum: [0, 1, 2],
-    default: 0,
+    enum: UserGender,
+    default: UserGender.Unknown,
   },
   createTime: {
     type: Number,
@@ -115,8 +129,8 @@ const UserSchema = new mongoose.Schema<UserDocument>({
   },
   status: {
     type: Number,
-    enum: [0, 1],
-    default: 1,
+    enum: UserStatus,
+    default: UserStatus.Normal,
   },
 }, {
   versionKey: false,

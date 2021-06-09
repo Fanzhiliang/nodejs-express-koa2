@@ -6,7 +6,7 @@ import tokenFilters from '../../filters/token'
 const ResourcesPath = global.Config.UPLOAD_PATH
 import multer from 'multer'
 import { parseTime, getSuffix, mkdirCheckExists } from '../../utils'
-import { createResult } from '../../db/model/result'
+import { createResult } from '../../db/common-model/result'
 
 router.use(tokenFilters)
 

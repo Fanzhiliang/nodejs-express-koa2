@@ -33,6 +33,7 @@
     "@types/multer": "^1.4.5",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
+    "apidoc": "^0.28.1",
     "copyfiles": "^2.4.1",
     "eslint": "^7.23.0",
     "mkdirp": "^1.0.4",

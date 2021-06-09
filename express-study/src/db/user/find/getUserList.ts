@@ -1,5 +1,5 @@
 import { User, UserModel } from '../index'
-import { ListParams, ListResult, createQueryOptions } from '../../model/list'
+import { ListParams, ListResult, createQueryOptions } from '../../common-model/list'
 
 /**
  * 获取用户列表

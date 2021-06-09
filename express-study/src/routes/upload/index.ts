@@ -7,7 +7,7 @@ const ResourcesPath = global.Config.UPLOAD_PATH
 import multer from 'multer'
 import fs from 'fs'
 import { parseTime, getSuffix, mkdirCheckExists } from '../../utils'
-import { createResult } from '../../db/model/result'
+import { Code, createResult } from '../../db/common-model/result'
 
 router.use(tokenFilters)
 
@@ -44,7 +44,7 @@ router.post('/', uploadAbleSendParam.single('file'), (req, res, next) => {
     fs.writeFile(dir + fileName, Buffer.from(req.file.buffer), error => {
       const result = createResult()
       if (error) {
-        result.code = 1
+        result.code = Code.DataError
         result.msg = error.message
       } else {
         result.data = path.posix.join(global.Config.UPLOAD_PREFIX, directoryPath, fileName)

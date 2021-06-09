@@ -1,12 +1,12 @@
 import express from 'express'
 const router = express.Router()
 import { parseToken } from '../utils/token'
-import { createResult } from '../db/model/result'
+import { Code, createResult } from '../db/common-model/result'
 const result = createResult()
 import User from '../db/user'
 
 router.use(async(req, res, next) => {
-  result.code = 2
+  result.code = Code.AuthError
 
   // const cookie = req.cookies[global.Config.TOKEN_KEY]
   // const session = req.session[global.Config.SESSION_NAME]
